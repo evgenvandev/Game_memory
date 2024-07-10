@@ -55,7 +55,10 @@ let gameGrid = cardsArray.concat(cardsArray);
 // Randomize game grid on each load
 gameGrid.sort(() => 0.5 - Math.random());
 
+let firstGuess = '';
+let secondGuess = '';
 let count = 0;
+let previousTarget = null;
 
 // Grab the div with an id of root
 const game = document.getElementById('game');
@@ -85,17 +88,42 @@ gameGrid.forEach((item => {
     grid.appendChild(card);
 }));
 
+// Add match CSS
+const match = () => {
+    let selected = document.querySelectorAll('.selected');
+    selected.forEach((card) => {
+        card.classList.add('match');
+    });
+}
+
 // Add event listener to grid
 grid.addEventListener('click', function(event) {
     // The event target is our clicked item
     let clicked = event.target;
     // Do not allow the grid section itself to be selected; only select divs inside the grid
-    if (clicked.nodeName === 'SECTION') {
+    if (clicked.nodeName === 'SECTION' || clicked === previousTarget) {
         return;
     }
     if (count < 2){
         count++;
-        // Add selected class
-        clicked.classList.add('selected');
+        if (count === 1) {
+            // Assign first guess
+            firstGuess = clicked.dataset.name;
+            clicked.classList.add('selected');
+        } else {
+            // Assign second guess
+            secondGuess = clicked.dataset.name;
+            clicked.classList.add('selected');
+        }
+        // If both guesses are not empty...
+        if (firstGuess !== '' && secondGuess !== '') {
+            // and the first guess matches the second guess...
+            if (firstGuess === secondGuess) {
+                // run the match function
+                match();
+            }
+        }
+        // Set previous target to clicked
+        previousTarget = clicked;
     }
 });
