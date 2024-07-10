@@ -96,6 +96,18 @@ const match = () => {
     });
 }
 
+// Reset guess count after 2
+const resetGuesses = () => {
+    firstGuess = '';
+    secondGuess = '';
+    count = 0;
+
+    let selected = document.querySelectorAll('.selected');
+    selected.forEach((card) => {
+        card.classList.remove('selected');
+    });
+}
+
 // Add event listener to grid
 grid.addEventListener('click', function(event) {
     // The event target is our clicked item
@@ -121,6 +133,9 @@ grid.addEventListener('click', function(event) {
             if (firstGuess === secondGuess) {
                 // run the match function
                 match();
+                resetGuesses();
+            } else {
+                resetGuesses();
             }
         }
         // Set previous target to clicked
