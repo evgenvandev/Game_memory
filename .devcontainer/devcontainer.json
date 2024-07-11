@@ -3,6 +3,9 @@
   "features": {
     "ghcr.io/devcontainers/features/java:1": {
       "version": "8"
+    },
+    "ghcr.io/devcontainers/features/dotnet:2": {
+      "version": "5.0"
     }
   }
 }
